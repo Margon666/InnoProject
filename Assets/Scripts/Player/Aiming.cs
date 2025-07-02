@@ -3,9 +3,8 @@ using UnityEngine.UI;
 
 public class CrosshairController : MonoBehaviour
 {
-    public Image crosshair;
     public bool isAiming = false;
-
+    public Image crosshair;
     void Update()
     {
         if (Input.GetMouseButton(1))

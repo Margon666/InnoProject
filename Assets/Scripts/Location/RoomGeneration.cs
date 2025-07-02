@@ -2,35 +2,28 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-// ДОДЕЛАТЬ БАГ С НАЧАЛЬНОЙ КОМНАТОЙ (сделано)
-// Сделать спавн комнат
-// Сделать спавн коридоров
 public class RoomGeneration : MonoBehaviour
 {
     public RoomType[][] roomGeneration = new RoomType[10][];
-    public GameObject roomStart;
-    public GameObject roomEnd;
-    public GameObject roomHeal;
-    public GameObject roomSimple;
-    public GameObject corridor;
-    public GameObject player;
     public float xLenthRooms = 5f;
-
     public float yLenthRooms = 5f;
+    public GameObject roomSimple;
+    public GameObject roomStart;
+    public GameObject roomHeal;
+    public GameObject corridor;
+    public GameObject roomEnd;
+    public GameObject player;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         for (int i = 0; i < 10; i++)
         {
             roomGeneration[i] = new RoomType[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // создание поля для генерации карты
         }
-
         int countRooms = Random.Range(7, 25); // генерация количетсва комнат
         roomGeneration[4][4] = RoomType.Start; // создагие первой(стартовой) комнаты
         int x = 4; // координаты сейчас по x
         int y = 4; // координаты сейчас по y
-        //Debug.Log(roomGeneration[4][4]);
         for (int _cnt = 1; _cnt < countRooms; _cnt++)
         {
             Direction direction = (Direction)Random.Range(1, 5);
@@ -43,11 +36,6 @@ public class RoomGeneration : MonoBehaviour
 
                 if (x > -1)
                 {
-                    if (x == 4 && y == 4)
-                    {
-                        //Debug.Log(1);
-                    }
-
                     roomGeneration[x][y] = RoomType.Simple;
                 }
                 else
@@ -66,11 +54,6 @@ public class RoomGeneration : MonoBehaviour
 
                 if (y > -1)
                 {
-                    if (x == 4 && y == 4)
-                    {
-                        //Debug.Log(2);
-                    }
-
                     roomGeneration[x][y] = RoomType.Simple;
                 }
                 else
@@ -89,11 +72,6 @@ public class RoomGeneration : MonoBehaviour
 
                 if (x < 10)
                 {
-                    if (x == 4 && y == 4)
-                    {
-                        //Debug.Log(3);
-                    }
-
                     roomGeneration[x][y] = RoomType.Simple;
                 }
                 else
@@ -112,11 +90,6 @@ public class RoomGeneration : MonoBehaviour
 
                 if (y < 10)
                 {
-                    if (x == 4 && y == 4)
-                    {
-                        //Debug.Log(4);
-                    }
-
                     roomGeneration[x][y] = RoomType.Simple;
                 }
                 else
@@ -127,17 +100,6 @@ public class RoomGeneration : MonoBehaviour
             }
         }
 
-        //
-        // for (int _x = 0; _x < 10; _x++)
-        // {
-        //     string str = _x.ToString()+") ";
-        //     for (int _y=0; _y < 10; _y++)
-        //     {
-        //         str+=roomGeneration[_x][_y].ToString()+" ";
-        //     }
-        //     //Debug.Log(str);
-        // }
-        //Debug.Log(roomGeneration[4][4]);
         roomGeneration = getFarHealRoom(roomGeneration);
         for (int _x = 0; _x < 10; _x++)
         {
@@ -146,19 +108,11 @@ public class RoomGeneration : MonoBehaviour
             {
                 str += ((int)roomGeneration[_x][_y]).ToString() + " ";
             }
-
-            //Debug.Log(str);
         }
 
         roomGen(roomGeneration);
         corridorGen(roomGeneration);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     RoomType[][] getFarHealRoom(RoomType[][] roomGeneration)
     {
         int x = 4;

@@ -1,9 +1,9 @@
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody rb;
-    public float spd = 5f;
     public float rot_speed = 100f;
+    public float spd = 5f;
+    private Rigidbody rb;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
     float Running(float speed)
     {
         speed +=spd;
