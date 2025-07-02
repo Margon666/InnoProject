@@ -1,5 +1,4 @@
 using UnityEngine;
-//механика движеня и вращеня камеры: w - вперед, s-резкий разворотб, ходьба назад, A - поворот налево, D - поворот направо.
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
