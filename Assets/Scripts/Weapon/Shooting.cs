@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
+    public float shootdur = 0.1f;
+    public LineRenderer shootWi;
     public WeaponMovement wpmv;
     public Camera playerCamera;
     public float range = 100f;
     public float damage = 10f;
+
     void Update()
     {
         if (Input.GetMouseButton(1))
@@ -13,6 +16,7 @@ public class Shooting : MonoBehaviour
             shoot();
         }
     }
+
     void shoot()
     {
         GameObject weapon = wpmv.ReturnWeapon();
@@ -27,12 +31,18 @@ public class Shooting : MonoBehaviour
         {
             aimPoint = aimray.GetPoint(range);
         }
+
         wpmv.WeaponTurn(aimPoint);
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit shoot;
             Ray muzzle = new Ray(weapon.transform.position, weapon.transform.forward);
-            if (Physics.Raycast(muzzle, out shoot, range))
+            bool hasHit = Physics.Raycast(muzzle, out shoot, range);
+            shootWi.SetPosition(0, weapon.transform.position);
+            shootWi.SetPosition(1, hasHit ? shoot.point : weapon.transform.position + weapon.transform.forward * range);
+            shootWi.enabled = true;
+            Invoke("DisableLaser", shootdur);
+            if (hasHit)
             {
                 GameObject shooted = shoot.collider.gameObject;
                 if (shoot.collider.GetComponent<NPCscript>())
@@ -42,5 +52,10 @@ public class Shooting : MonoBehaviour
                 }
             }
         }
+    }
+
+    void DisableLaser()
+    {
+        shootWi.enabled = false;
     }
 }

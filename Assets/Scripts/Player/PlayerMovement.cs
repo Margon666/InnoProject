@@ -1,26 +1,29 @@
 using UnityEngine;
+
 public class PlayerMovement : MonoBehaviour
 {
     public float rot_speed = 100f;
     public float spd = 5f;
     private Rigidbody rb;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
+
     void Update()
     {
         float speed = spd;
         if (Input.GetMouseButton(1))
         {
-            transform.position+=transform.forward*speed*Time.deltaTime*Input.GetAxis("Vertical");//вперед-назад
-            transform.position+=transform.right*speed*Time.deltaTime*Input.GetAxis("Horizontal");//право-лево
+            transform.position += transform.forward * speed * Time.deltaTime * Input.GetAxis("Vertical"); //вперед-назад
+            transform.position += transform.right * speed * Time.deltaTime * Input.GetAxis("Horizontal"); //право-лево
         }
         else
         {
-            if (Input.GetKey(KeyCode.LeftShift) && !Input.GetMouseButton(1))//бег
+            if (Input.GetKey(KeyCode.LeftShift) && !Input.GetMouseButton(1)) //бег
             {
-                speed=Running(speed);
+                speed = Running(speed);
             }
 
             if (Input.GetKey(KeyCode.D) && !Input.GetMouseButton(1))
@@ -39,13 +42,15 @@ public class PlayerMovement : MonoBehaviour
             // }
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position+=transform.forward*speed*Time.deltaTime*Input.GetAxis("Vertical");//вперед-назад
+                transform.position +=
+                    transform.forward * speed * Time.deltaTime * Input.GetAxis("Vertical"); //вперед-назад
             }
         }
     }
+
     float Running(float speed)
     {
-        speed +=spd;
+        speed += spd;
         return speed;
     }
 }

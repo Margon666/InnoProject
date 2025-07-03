@@ -21,6 +21,7 @@ public class RoomGeneration : MonoBehaviour
         {
             roomGeneration[i] = new RoomType[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // создание поля для генерации карты
         }
+
         int countRooms = Random.Range(7, 25); // генерация количетсва комнат
         roomGeneration[4][4] = RoomType.Start; // создагие первой(стартовой) комнаты
         int x = 4; // координаты сейчас по x
@@ -114,6 +115,7 @@ public class RoomGeneration : MonoBehaviour
         roomGen(roomGeneration);
         corridorGen(roomGeneration);
     }
+
     RoomType[][] getFarHealRoom(RoomType[][] roomGeneration)
     {
         int x = 4;
@@ -189,11 +191,12 @@ public class RoomGeneration : MonoBehaviour
                     _roomSimple.GetComponent<Fight>().player = player;
                     bool[] neighbors =
                     {
-                        j<9 && roomGeneration[i][j+1]!=RoomType.Null, i<9 && roomGeneration[i+1][j]!=RoomType.Null, 
-                        j>0 && roomGeneration[i][j-1]!=RoomType.Null, i>0 && roomGeneration[i-1][j]!=RoomType.Null
+                        j < 9 && roomGeneration[i][j + 1] != RoomType.Null,
+                        i < 9 && roomGeneration[i + 1][j] != RoomType.Null,
+                        j > 0 && roomGeneration[i][j - 1] != RoomType.Null,
+                        i > 0 && roomGeneration[i - 1][j] != RoomType.Null
                     };
                     _roomSimple.GetComponent<Fight>().neighbors = neighbors;
-                    
                 }
 
                 if (roomGeneration[i][j] == RoomType.End)
@@ -203,7 +206,8 @@ public class RoomGeneration : MonoBehaviour
 
                 if (roomGeneration[i][j] == RoomType.Heal)
                 {
-                    Instantiate(roomHeal, new Vector3(xPos, 0, yPos), Quaternion.identity);
+                    GameObject _roomHeal = Instantiate(roomHeal, new Vector3(xPos, 0, yPos), Quaternion.identity);
+                    _roomHeal.GetComponent<HealRoom>().player = player;
                 }
 
                 yPos += yLenthRooms;
@@ -223,29 +227,32 @@ public class RoomGeneration : MonoBehaviour
             {
                 if (roomGeneration[i][j] != RoomType.Null)
                 {
-                    if(i>0 && roomGeneration[i-1][j] == RoomType.Null)
+                    if (i > 0 && roomGeneration[i - 1][j] == RoomType.Null)
                     {
-                        Instantiate(Wall,new Vector3(xPos-6, 0, yPos), Quaternion.Euler(0,90,0));
+                        Instantiate(Wall, new Vector3(xPos - 6, 0, yPos), Quaternion.Euler(0, 90, 0));
                     }
-                    if(j>0 && roomGeneration[i][j-1] == RoomType.Null)
+
+                    if (j > 0 && roomGeneration[i][j - 1] == RoomType.Null)
                     {
-                        Instantiate(Wall,new Vector3(xPos, 0, yPos-6), Quaternion.Euler(0,0,0));
+                        Instantiate(Wall, new Vector3(xPos, 0, yPos - 6), Quaternion.Euler(0, 0, 0));
                     }
+
                     if (i < 9 && roomGeneration[i + 1][j] != RoomType.Null)
                     {
                         Instantiate(corridor, new Vector3(xPos + xLenthRooms / 2, 0, yPos), Quaternion.Euler(0, 90, 0));
                     }
                     else
                     {
-                        Instantiate(Wall,new Vector3(xPos+6, 0, yPos), Quaternion.Euler(0,-90,0));
+                        Instantiate(Wall, new Vector3(xPos + 6, 0, yPos), Quaternion.Euler(0, -90, 0));
                     }
+
                     if (j < 9 && roomGeneration[i][j + 1] != RoomType.Null)
                     {
                         Instantiate(corridor, new Vector3(xPos, 0, yPos + yLenthRooms / 2), Quaternion.identity);
                     }
                     else
                     {
-                        Instantiate(Wall,new Vector3(xPos, 0, yPos+6), Quaternion.Euler(0,180,0));
+                        Instantiate(Wall, new Vector3(xPos, 0, yPos + 6), Quaternion.Euler(0, 180, 0));
                     }
                 }
 

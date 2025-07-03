@@ -3,6 +3,7 @@ using UnityEngine;
 public class AnimControl : MonoBehaviour
 {
     public Animator animator;
+
     void Update()
     {
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !Input.GetMouseButton(1)) // бег
@@ -13,7 +14,7 @@ public class AnimControl : MonoBehaviour
         {
             animator.SetBool("RunForward", false);
         }
-        
+
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.LeftShift)) // ходьба
         {
             animator.SetBool("WalkForward", true);
@@ -33,6 +34,7 @@ public class AnimControl : MonoBehaviour
             {
                 animator.SetBool("TurnRight", false);
             }
+
             if (!Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D)) // налево
             {
                 animator.SetBool("TurnLeft", true);

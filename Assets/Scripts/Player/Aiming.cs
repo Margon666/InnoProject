@@ -5,6 +5,7 @@ public class CrosshairController : MonoBehaviour
 {
     public bool isAiming = false;
     public Image crosshair;
+
     void Update()
     {
         if (Input.GetMouseButton(1))
@@ -15,6 +16,7 @@ public class CrosshairController : MonoBehaviour
         {
             isAiming = false;
         }
+
         crosshair.enabled = isAiming;
     }
 }
