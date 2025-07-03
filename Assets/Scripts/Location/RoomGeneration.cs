@@ -13,6 +13,7 @@ public class RoomGeneration : MonoBehaviour
     public GameObject corridor;
     public GameObject roomEnd;
     public GameObject player;
+    public GameObject Wall;
 
     void Start()
     {
@@ -186,6 +187,13 @@ public class RoomGeneration : MonoBehaviour
                 {
                     GameObject _roomSimple = Instantiate(roomSimple, new Vector3(xPos, 0, yPos), Quaternion.identity);
                     _roomSimple.GetComponent<Fight>().player = player;
+                    bool[] neighbors =
+                    {
+                        j<9 && roomGeneration[i][j+1]!=RoomType.Null, i<9 && roomGeneration[i+1][j]!=RoomType.Null, 
+                        j>0 && roomGeneration[i][j-1]!=RoomType.Null, i>0 && roomGeneration[i-1][j]!=RoomType.Null
+                    };
+                    _roomSimple.GetComponent<Fight>().neighbors = neighbors;
+                    
                 }
 
                 if (roomGeneration[i][j] == RoomType.End)
@@ -215,14 +223,29 @@ public class RoomGeneration : MonoBehaviour
             {
                 if (roomGeneration[i][j] != RoomType.Null)
                 {
+                    if(i>0 && roomGeneration[i-1][j] == RoomType.Null)
+                    {
+                        Instantiate(Wall,new Vector3(xPos-6, 0, yPos), Quaternion.Euler(0,90,0));
+                    }
+                    if(j>0 && roomGeneration[i][j-1] == RoomType.Null)
+                    {
+                        Instantiate(Wall,new Vector3(xPos, 0, yPos-6), Quaternion.Euler(0,0,0));
+                    }
                     if (i < 9 && roomGeneration[i + 1][j] != RoomType.Null)
                     {
                         Instantiate(corridor, new Vector3(xPos + xLenthRooms / 2, 0, yPos), Quaternion.Euler(0, 90, 0));
                     }
-
+                    else
+                    {
+                        Instantiate(Wall,new Vector3(xPos+6, 0, yPos), Quaternion.Euler(0,-90,0));
+                    }
                     if (j < 9 && roomGeneration[i][j + 1] != RoomType.Null)
                     {
                         Instantiate(corridor, new Vector3(xPos, 0, yPos + yLenthRooms / 2), Quaternion.identity);
+                    }
+                    else
+                    {
+                        Instantiate(Wall,new Vector3(xPos, 0, yPos+6), Quaternion.Euler(0,180,0));
                     }
                 }
 

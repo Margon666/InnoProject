@@ -10,9 +10,9 @@ public class Fight : MonoBehaviour
     public GameObject[] check;
     public GameObject player;
     public GameObject[] npcs;
+    public bool[] neighbors;
     private bool spawn = false;
     private bool end = false;
-    
     void Update()
     {
         if (!spawn && Mathf.Abs(transform.position.x - player.transform.position.x) <=  4 &&
@@ -32,7 +32,7 @@ public class Fight : MonoBehaviour
         }
         if(!end && npcscheck && spawn)
         {
-            Debug.Log("end");
+            //Debug.lLog("end");
             end = true;
             StartCoroutine(WallsDown());
         }
@@ -57,13 +57,21 @@ public class Fight : MonoBehaviour
     }
     IEnumerator WallsDown()
     {
-        while (Walls[0].transform.position.y >-3.9f)
+        while (Walls[0].transform.position.y >-3.9f || Walls[1].transform.position.y >-3.9f
+             || Walls[2].transform.position.y >-3.9f || Walls[3].transform.position.y >-3.9f)
         {
+            //Debug.Log("While");
             for (int i = 0; i < Walls.Length; i++)
             {
-                GameObject wall = Walls[i];
-                wall.transform.position = Vector3.Lerp(wall.transform.position, new Vector3(wall.transform.position.x,-4,wall.transform.position.z),
-                    Time.deltaTime*2f);
+                if (neighbors[i])
+                {
+                    //Debug.Log(Walls[i].transform.position.y);
+                    GameObject wall = Walls[i];
+                    wall.transform.position = Vector3.Lerp(wall.transform.position,
+                        new Vector3(wall.transform.position.x, -4, wall.transform.position.z),
+                        Time.deltaTime * 2f);
+                    //Debug.Log(Walls[i].transform.position.y);
+                }
             }
             yield return null;
         }
@@ -71,13 +79,17 @@ public class Fight : MonoBehaviour
     IEnumerator WallsUp()
     {
         StartFight();
-        while (Walls[0].transform.position.y < -0.1f)
+        while (Walls[0].transform.position.y < -0.1f && Walls[1].transform.position.y < -0.1f
+              && Walls[2].transform.position.y < -0.1f && Walls[3].transform.position.y < -0.1f)
         {
             for (int i = 0; i < Walls.Length; i++)
             {
-                GameObject wall = Walls[i];
-                wall.transform.position = Vector3.Lerp(wall.transform.position, new Vector3(wall.transform.position.x,0,wall.transform.position.z),
-                    Time.deltaTime*2f);
+                if (neighbors[i])
+                {
+                    GameObject wall = Walls[i];
+                    wall.transform.position = Vector3.Lerp(wall.transform.position, new Vector3(wall.transform.position.x,0,wall.transform.position.z),
+                        Time.deltaTime*2f);   
+                }
             }
             yield return null;
         }
