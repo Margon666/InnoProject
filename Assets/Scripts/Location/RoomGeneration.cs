@@ -227,12 +227,12 @@ public class RoomGeneration : MonoBehaviour
             {
                 if (roomGeneration[i][j] != RoomType.Null)
                 {
-                    if (i > 0 && roomGeneration[i - 1][j] == RoomType.Null)
+                    if (i > 0 && roomGeneration[i - 1][j] == RoomType.Null || i==0)
                     {
                         Instantiate(Wall, new Vector3(xPos - 6, 0, yPos), Quaternion.Euler(0, 90, 0));
                     }
 
-                    if (j > 0 && roomGeneration[i][j - 1] == RoomType.Null)
+                    if (j > 0 && roomGeneration[i][j - 1] == RoomType.Null || j==0)
                     {
                         Instantiate(Wall, new Vector3(xPos, 0, yPos - 6), Quaternion.Euler(0, 0, 0));
                     }
